@@ -10,7 +10,20 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
+        <style>
+            textarea {
+                resize: none;
+                overflow: auto;
+                min-height: 100px;
+            }
+        </style>
+
         <h1>Your List </h1>
+        <form id="reipeForm">
+            <label for="recipeInput">Recipe: </label>
+            <textarea id="recipeInput" name="recipe" rows="1"></textarea>
+            <button type="submit">Submit</button>
+        </form>
         
         <script src="" async defer></script>
     </body>

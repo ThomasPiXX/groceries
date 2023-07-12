@@ -5,6 +5,7 @@ const app = express();
 const port = 3000;
 
 //ejs
+
 // Set view engine
 app.set('view engine', 'ejs');
 const path = require('path');
@@ -16,6 +17,19 @@ app.use(express.json());
 
 
 
+
+
+app.get("/", (req, res) => {
+    res.render('list');
+});
+
+app.get("/List", (req, res) => {
+    res.render('list');
+})
+
+app.post("sortList", (req, res, next) => {
+
+})
 
 
 
