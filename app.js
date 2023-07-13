@@ -13,6 +13,10 @@ app.set('views', path.join(__dirname, 'view'));
 //
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
+///////////////////////////////////
+//open AI API
+const openai = require('openai');
+openai.apiKey = '';
 
 
 
@@ -25,14 +29,27 @@ app.get("/", (req, res) => {
 
 app.get("/List", (req, res) => {
     res.render('list');
-})
-
-app.post("sortList", (req, res, next) => {
-
-})
+});
 
 
-
+app.post("/sortList", async (req, res, next) => {
+    const { recipe } = req.body;
+  
+    try {
+      const response = await openai.Completion.create({
+        engine: 'ada-v2', // Specify the ada v2 engine
+        prompt: recipe, // Pass the recipe as the prompt for the model
+        max_tokens: 100, // Specify the desired response length
+      });
+  
+      const sortedGroceryList = response.choices[0].text.trim();
+  
+      res.json(sortedGroceryList);
+    } catch (error) {
+      next(error);
+    }
+  });
+  
 
 
 
