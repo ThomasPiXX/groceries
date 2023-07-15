@@ -38,7 +38,7 @@ app.post("/sortList", async (req, res, next) => {
     try {
       const response = await openai.Completion.create({
         engine: 'text-embedding-ada-002', // Specify the ada v2 engine
-        prompt: recipe, // Pass the recipe as the prompt for the model
+        prompt: "Please sort the ingredients into the appropriate grocery sections:\n\n" + recipe,// Pass the recipe as the prompt for the model
         max_tokens: 100, // Specify the desired response length
       });
   
