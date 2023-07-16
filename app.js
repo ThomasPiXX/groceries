@@ -31,7 +31,8 @@ app.get("/List", (req, res) => {
     res.render('list');
 });
 
-
+////////////////////////////////////////////////////
+// Open AI solution 
 app.post("/sortList", async (req, res, next) => {
     const { recipe } = req.body;
   
@@ -50,7 +51,25 @@ app.post("/sortList", async (req, res, next) => {
     }
   });
   
+/////////////////////////////////////////////////
+//LlaMa solution 
 
+app.post('submitForm', (req, res) => {
+  const recipe = req.body.recipe; // retrieve the recipe from the form 
+  const data = { recipe }; // create an object to send to flask 
+
+  //Make a POST  request to flask server
+  axios.post('http://localhost:5000/processRecipe', data)
+    .then(response => {
+      //handle the response from Flask server
+      const sortedList = response.data.sotedList;
+      res.render('result', { sortedList });
+      })
+    .catch(error => {
+      console.error(error);
+      res.render('error'); // render an error page if there's an issue 
+    });
+});
 
 
 
