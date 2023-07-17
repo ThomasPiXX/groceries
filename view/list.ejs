@@ -37,20 +37,37 @@
         }
 
         .or-text {
-            margin-bottom: 50px;
-            margin-left : 10px;
+            text-align: center;
+            
+        }
+        .custom-textarea {
+            height: auto;
+            max-height: 150px;
+            min-height: 80px;
+            padding: 10px;
+            resize: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow-y: auto;
         }
     </style>
     <script>
         function handleRecipeInput() {
             var recipeInput = document.getElementById("recipeInput");
             var recipeLabel = document.getElementById("recipeLabel");
+            var recipeLines = recipeInput.value.split('\n');
+            var linesCount = recipeLines.length;
 
             if (recipeInput.value.length > 0) {
                 recipeLabel.style.display = "none";
             } else {
                 recipeLabel.style.display = "block";
             }
+
+            recipeInput.style.height = "auto";
+            recipeInput.style.height = (linesCount * 1.5) + "em";
         }
     </script>
 </head>
@@ -60,14 +77,12 @@
         <div class="row">
             <form class="col s12" id="recipeForm" action="/sortedList" method="post">
                 <div class="row">
-                    <div class="input-field col s12">
+                    <div class="input-field col s7">
                         <textarea id="recipeInput" class="materialize-textarea" name="recipe" oninput="handleRecipeInput()"></textarea>
-                        <label id="recipeLabel" for="recipeInput">Recipe</label>
+                        <label id="recipeLabel" for="recipeInput">Paste your recipe here to get it sorted 😊</label>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <button class="btn waves-effect waves-light" type="submit">Submit</button>
+                    <div class="input-field col s3" style="display: flex; align-items: flex-end;">
+                        <button class="btn waves-effect waves-light" type="submit">Sort</button>
                     </div>
                 </div>
             </form>
@@ -76,7 +91,7 @@
             <p>or get to</p>
         </div>
         <div class="row">
-            <div class="col s12">
+            <div class="col s12" style="text-align: center;">
                 <a href="/pantry" class="btn waves-effect waves-light">My Pantry</a>
             </div>
         </div>
