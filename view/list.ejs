@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Your List</title>
+    <title>Recipe List</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -25,6 +25,7 @@
             text-align: center;
             margin-bottom: 30px;
             color: #333;
+            font-size: 36px;
         }
 
         .btn {
@@ -34,17 +35,34 @@
         .btn:hover {
             background-color: #2bbbad;
         }
+
+        .or-text {
+            margin-bottom: 50px;
+            margin-left : 10px;
+        }
     </style>
+    <script>
+        function handleRecipeInput() {
+            var recipeInput = document.getElementById("recipeInput");
+            var recipeLabel = document.getElementById("recipeLabel");
+
+            if (recipeInput.value.length > 0) {
+                recipeLabel.style.display = "none";
+            } else {
+                recipeLabel.style.display = "block";
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="container">
-        <h1>Your List</h1>
+        <h1>Recipe List</h1>
         <div class="row">
             <form class="col s12" id="recipeForm" action="/sortedList" method="post">
                 <div class="row">
                     <div class="input-field col s12">
-                        <textarea id="recipeInput" class="materialize-textarea" name="recipe"></textarea>
-                        <label for="recipeInput">Recipe</label>
+                        <textarea id="recipeInput" class="materialize-textarea" name="recipe" oninput="handleRecipeInput()"></textarea>
+                        <label id="recipeLabel" for="recipeInput">Recipe</label>
                     </div>
                 </div>
                 <div class="row">
@@ -53,6 +71,14 @@
                     </div>
                 </div>
             </form>
+        </div>
+        <div class="or-text">
+            <p>or get to</p>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <a href="/pantry" class="btn waves-effect waves-light">My Pantry</a>
+            </div>
         </div>
     </div>
     

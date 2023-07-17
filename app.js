@@ -72,7 +72,12 @@ app.post('submitForm', (req, res) => {
 });
 
 
+/////////////////////////////////////////////////////////////////
+// path for my pantry 
 
+app.get("/MyPantry", (req, res) => {
+  res.render('login');
+});
 
 
 
