@@ -76,27 +76,13 @@ app.post('submitForm', (req, res) => {
 // path for my pantry 
 
 app.get("/MyPantry", (req, res) => {
-  res.render('login');
+  res.render('loginPantry');
 });
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 //////////////////////////////////////
-//start the app/server listening upcoming request
 //start the app/server listening upcoming request
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`)
