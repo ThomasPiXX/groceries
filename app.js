@@ -1,11 +1,18 @@
 /////////////////////////////////
+const sqlite3 = require('sqlite3');
+const db = sqlite3.Database('pantry.db')
 // express
 const express = require('express');
 const app = express();
 const port = 3000;
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
+app.use(express.urlencoded({ extend: true}));
+app.use(express.static('public'));
+app.use(cookieParser());
+app.use(express.json);
 //ejs
-
 // Set view engine
 app.set('view engine', 'ejs');
 const path = require('path');
@@ -17,7 +24,28 @@ app.use(express.json());
 //open AI API
 const openai = require('openai');
 openai.apiKey = '';
+///////////////////////////////////
+//midware
+// csurftoken
+const csrf = require('csurf');
+const csrfProtection = csrf({
+  cookie:{
+    key: '_csrf-my-app',
+    path: '/',
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 3600 // 1hour
+  }});
+app.use(csrfProtection);
 
+//crypto password for session key
+const crypto = require('crypto');
+
+// generate a random secret key
+function generateSecretKey() {
+  const secretKey = crypto.randomBytes(32).toString('hex');
+  return secretKey;
+}
 
 
 
