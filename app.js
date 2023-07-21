@@ -37,7 +37,6 @@ const csrfProtection = csrf({
     maxAge: 3600 // 1hour
   }});
 app.use(csrfProtection);
-
 //crypto password for session key
 const crypto = require('crypto');
 
@@ -46,7 +45,20 @@ function generateSecretKey() {
   const secretKey = crypto.randomBytes(32).toString('hex');
   return secretKey;
 }
-
+app.use(session({
+  secret: generateSecretKey(),
+  resave: false,
+  saveUninitialized: false
+}));
+// setuping passport local strategy
+const passport = require('passport');
+const localStrategy = require('passport-local').Strategy;
+//hashing  solution for passpword storage 
+const bcrypt = require('bcryptjs');
+//passport configuration
+app.use(passport.initialize());
+app.use(passport.session());
+//serialize the user object
 
 
 
