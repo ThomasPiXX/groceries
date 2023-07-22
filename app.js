@@ -1,6 +1,6 @@
 /////////////////////////////////
 const sqlite3 = require('sqlite3');
-const db = sqlite3.Database('pantry.db')
+const db = new sqlite3.Database('pantry.db')
 // express
 const express = require('express');
 const app = express();
@@ -8,18 +8,15 @@ const port = 3000;
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
-app.use(express.urlencoded({ extend: true}));
+app.use(express.urlencoded({ extended: true}));
 app.use(express.static('public'));
 app.use(cookieParser());
-app.use(express.json);
+app.use(express.json());
 //ejs
 // Set view engine
 app.set('view engine', 'ejs');
 const path = require('path');
 app.set('views', path.join(__dirname, 'view'));
-//
-app.use(express.urlencoded({ extended: true}));
-app.use(express.json());
 ///////////////////////////////////
 //open AI API
 const openai = require('openai');
@@ -59,13 +56,13 @@ const bcrypt = require('bcryptjs');
 app.use(passport.initialize());
 app.use(passport.session());
 //serialize the user object
-passport.serizaleUser((user, done) => {
+passport.serializeUser((user, done) => {
   console.log('serialize user:', user);
   done(null, user.user_name);
 })
 
 //deserialize
-passport.deserializeUser((user, done) =>{
+passport.deserializeUser((username, done) =>{
   db.get('SELECT * FROM users WHERE user_name = ?', [username], (error, row) => {
     if(error) {
       return done(error);
@@ -76,7 +73,7 @@ passport.deserializeUser((user, done) =>{
     const user = {
       name : row.user_name
     };
-    console.lof('Deserialize User :', user);
+    console.log('Deserialize User :', user);
     return done(null, user);
   });
 });
