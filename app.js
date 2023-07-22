@@ -59,6 +59,50 @@ const bcrypt = require('bcryptjs');
 app.use(passport.initialize());
 app.use(passport.session());
 //serialize the user object
+passport.serizaleUser((user, done) => {
+  console.log('serialize user:', user);
+  done(null, user.user_name);
+})
+
+//deserialize
+passport.deserializeUser((user, done) =>{
+  db.get('SELECT * FROM users WHERE user_name = ?', [username], (error, row) => {
+    if(error) {
+      return done(error);
+    }
+    if (!row) {
+      return done(error);
+    }
+    const user = {
+      name : row.user_name
+    };
+    console.lof('Deserialize User :', user);
+    return done(null, user);
+  });
+});
+//Passport strategy
+passport.use(new localStrategy((username, password, done) => {
+  db.get("SELECT * FROM users WHERE user_name = ?",[username], (error, rows) => {
+    if(error) {
+      return done(error);
+    }
+    if(!rows){
+      return done(null, false, { template: 'createAccount'});
+    }
+    bcrypt.compare(password, rows.user_password, (error, isMatch) => {
+      if (error) {
+        return done(error);
+      }
+      if (!isMatch) {
+        return done(null, false, { template: 'createAccount' });
+      }
+      console.log(isMatch);
+      return done(null, rows ,{ template:'myPantry' });
+    });
+  });
+}));
+//function for hashing password for DB
+
 
 
 
