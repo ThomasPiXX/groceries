@@ -169,6 +169,43 @@ app.post('submitForm', (req, res) => {
     });
 });
 
+/////////////////////////////////////////////////////////////////
+// path to create account (handling new user)
+
+app.get('createAccount', (req, res) => {
+  res.render('createAccount');
+})
+
+app.post('createAccount', (req, res) =>{
+  const { username,  userPassword} = req.body;
+
+  db.get("SELECT * FROM users WHERE user_name=?", [username], function(error, row) {
+    if(error) throw error;
+  
+    if(row) {
+      console.log('user already exist');
+      res.status(400).send('Name already taken');
+    }else{
+      passwordHasher(userPassword, (error, hashedPassword) => {
+        if(error){
+          console.log('error hashing password', error);
+          res.status(500).send('Error hashing password');
+          return;
+        }
+        db.run("INSERT INTO users (user_name, user_password) VALUES (?, ?)", [username, hashedPassword], function(error) {
+          if(error) {
+            console.log(error);
+            res.status(400).send('Error, try again');
+            throw error;
+          }else{ 
+          console.log("User account added");
+          res.redirect('/MyPantry');
+          }
+        });
+      });
+    }
+  });
+});
 
 /////////////////////////////////////////////////////////////////
 // path for my pantry 
