@@ -33,7 +33,16 @@ const csrfProtection = csrf({
     secure: process.env.NODE_ENV === 'production',
     maxAge: 3600 // 1hour
   }});
-app.use(csrfProtection);
+
+//conditionel csrf function
+function conditionalCSRFProtection(req, res, next) {
+  if (['/createAccount'].includes(req.path)) {
+    return next();
+  }
+  csrfProtection(req, res, next);
+}
+
+app.use(conditionalCSRFProtection);
 //crypto password for session key
 const crypto = require('crypto');
 
@@ -131,7 +140,7 @@ app.get("/List", (req, res) => {
 
 ////////////////////////////////////////////////////
 // Open AI solution 
-app.post("/sortList", async (req, res, next) => {
+app.post("/test", async (req, res, next) => {
     const { recipe } = req.body;
   
     try {
@@ -152,7 +161,7 @@ app.post("/sortList", async (req, res, next) => {
 /////////////////////////////////////////////////
 //LlaMa solution 
 
-app.post('submitForm', (req, res) => {
+app.post('/tester', (req, res) => {
   const recipe = req.body.recipe; // retrieve the recipe from the form 
   const data = { recipe }; // create an object to send to flask 
 
@@ -172,12 +181,12 @@ app.post('submitForm', (req, res) => {
 /////////////////////////////////////////////////////////////////
 // path to create account (handling new user)
 
-app.get('createAccount', (req, res) => {
-  res.render('createAccount');
+app.get('/createAccount', (req, res) => {
+  res.render('createPantry');
 })
 
-app.post('createAccount', (req, res) =>{
-  const { username,  userPassword} = req.body;
+app.post('/createAccount', (req, res) =>{
+  const { username,  password } = req.body;
 
   db.get("SELECT * FROM users WHERE user_name=?", [username], function(error, row) {
     if(error) throw error;
@@ -186,7 +195,7 @@ app.post('createAccount', (req, res) =>{
       console.log('user already exist');
       res.status(400).send('Name already taken');
     }else{
-      passwordHasher(userPassword, (error, hashedPassword) => {
+      passwordHasher(password, (error, hashedPassword) => {
         if(error){
           console.log('error hashing password', error);
           res.status(500).send('Error hashing password');
@@ -199,7 +208,7 @@ app.post('createAccount', (req, res) =>{
             throw error;
           }else{ 
           console.log("User account added");
-          res.redirect('/MyPantry');
+          res.redirect('/Mypantry');
           }
         });
       });
@@ -214,6 +223,8 @@ app.get("/MyPantry", (req, res) => {
   res.render('loginPantry');
 });
 
+/////////////////////////////////////////////////////////////////
+//path to loginPantry
 
 
 
