@@ -220,7 +220,8 @@ app.post('/createAccount', (req, res) =>{
 // path for my pantry 
 
 app.get("/MyPantry", (req, res) => {
-  res.render('loginPantry');
+  const csrfToken = req.csrfToken();
+  res.render('loginPantry', { csrfToken });
 });
 
 /////////////////////////////////////////////////////////////////
