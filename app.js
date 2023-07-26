@@ -225,6 +225,22 @@ app.get("/MyPantry", (req, res) => {
 
 /////////////////////////////////////////////////////////////////
 //path to loginPantry
+app.post("/login", (req, res, next) => {
+  passport.authenticate('local', (error, user, info) =>{
+    if(error){
+      return next(error);
+    }
+    if(!user) {
+      return res.redirect('/myPantry');
+    }
+    req.login(user, (error) => {
+      if(error) {
+        return next(error);
+      }
+      return res.redirect('/dashboard');
+    });
+  });
+});
 
 
 
