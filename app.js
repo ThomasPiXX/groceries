@@ -208,7 +208,7 @@ app.post('/createAccount', (req, res) =>{
             throw error;
           }else{ 
           console.log("User account added");
-          res.redirect('/Mypantry');
+          res.redirect('/loginForm');
           }
         });
       });
@@ -217,14 +217,12 @@ app.post('/createAccount', (req, res) =>{
 });
 
 /////////////////////////////////////////////////////////////////
-// path for my pantry 
-
-app.get("/MyPantry", (req, res) => {
+// path to login to  pantry or create user 
+app.get("/loginForm", (req, res) => {
   const csrfToken = req.csrfToken();
   res.render('loginPantry', { csrfToken });
 });
 
-/////////////////////////////////////////////////////////////////
 //path to loginPantry
 app.post("/login", (req, res, next) => {
   passport.authenticate('local', (error, user, info) =>{
@@ -232,16 +230,40 @@ app.post("/login", (req, res, next) => {
       return next(error);
     }
     if(!user) {
-      return res.redirect('/myPantry');
+      return res.redirect('/loginPantry');
     }
     req.login(user, (error) => {
       if(error) {
         return next(error);
       }
-      return res.redirect('/dashboard');
+      return res.redirect('/myPantry');
     });
   })(req, res, next);
 });
+
+//myPantry path 
+app.get('/myPantry', (req, res) => {
+   if (req.user) {
+    const csrfToken = req.csrfToken();
+    const user = req.user;
+    res.render('myPantry', {user , csrfToken});
+   }else{
+    res.render('loginPantry');
+   }
+});
+
+//logout button
+app.post('/logout', (req, res) => {
+  const csrfToken = req.csrfToken();
+  req.logout(function(err) {
+    if(err) {
+      console.log(err);
+    }
+  });
+  console.log(req.user);
+  res.render('loginPantry', { csrfToken });
+});
+
 
 
 
