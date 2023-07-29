@@ -223,6 +223,10 @@ app.get("/loginForm", (req, res) => {
   res.render('loginPantry', { csrfToken });
 });
 
+app.get('/loginPantry', (req, res) => {
+  const csrfToken = req.csrfToken();
+  res.render('loginPantry', { csrfToken });
+})
 //path to loginPantry
 app.post("/login", (req, res, next) => {
   passport.authenticate('local', (error, user, info) =>{
@@ -230,7 +234,7 @@ app.post("/login", (req, res, next) => {
       return next(error);
     }
     if(!user) {
-      return res.redirect('/loginPantry');
+      return res.redirect('/createAccount');
     }
     req.login(user, (error) => {
       if(error) {
