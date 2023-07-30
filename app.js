@@ -217,12 +217,13 @@ app.post('/createAccount', (req, res) =>{
 });
 
 /////////////////////////////////////////////////////////////////
-// path to login to  pantry or create user 
+// path to login to  pantry or create user from / 
 app.get("/loginForm", (req, res) => {
   const csrfToken = req.csrfToken();
   res.render('loginPantry', { csrfToken });
 });
 
+// get path for loginPantry
 app.get('/loginPantry', (req, res) => {
   const csrfToken = req.csrfToken();
   res.render('loginPantry', { csrfToken });
