@@ -184,7 +184,7 @@ app.post('/tester', (req, res) => {
 app.get('/createAccount', (req, res) => {
   res.render('createPantry');
 })
-
+// password hasher is called in the path
 app.post('/createAccount', (req, res) =>{
   const { username,  password } = req.body;
 
