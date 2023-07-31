@@ -235,6 +235,7 @@ app.post("/login", (req, res, next) => {
       return next(error);
     }
     if(!user) {
+      res.status(400).send('User dont exist please create one')
       return res.redirect('/createAccount');
     }
     req.login(user, (error) => {
