@@ -1,6 +1,7 @@
+
 /////////////////////////////////
 const sqlite3 = require('sqlite3');
-const db = new sqlite3.Database('pantry.db')
+const db = new sqlite3.Database('pantry.db');
 // express
 const express = require('express');
 const app = express();
