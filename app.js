@@ -1,4 +1,4 @@
-
+//backend for the app main server 
 /////////////////////////////////
 const sqlite3 = require('sqlite3');
 const db = new sqlite3.Database('pantry.db');
@@ -8,11 +8,13 @@ const app = express();
 const port = 3000;
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const flash = require('connect-flash');
 
 app.use(express.urlencoded({ extended: true}));
 app.use(express.static('public'));
 app.use(cookieParser());
 app.use(express.json());
+app.use(flash());
 //ejs
 // Set view engine
 app.set('view engine', 'ejs');
@@ -183,7 +185,8 @@ app.post('/tester', (req, res) => {
 // path to create account (handling new user)
 
 app.get('/createAccount', (req, res) => {
-  res.render('createPantry');
+  const message = req.flash('error');
+  res.render('createPantry',{ message: message[0] });
 })
 // password hasher is called in the path
 app.post('/createAccount', (req, res) =>{
@@ -226,8 +229,9 @@ app.get("/loginForm", (req, res) => {
 
 // get path for loginPantry
 app.get('/loginPantry', (req, res) => {
+  const message = req.flash('error');
   const csrfToken = req.csrfToken();
-  res.render('loginPantry', { csrfToken });
+  res.render('loginPantry', { csrfToken, message: message[0] });
 })
 //path to loginPantry
 app.post("/login", (req, res, next) => {
@@ -236,7 +240,7 @@ app.post("/login", (req, res, next) => {
       return next(error);
     }
     if(!user) {
-      res.status(400).send('User dont exist please create one')
+      req.flash('error', 'User dont exist please create one');
       return res.redirect('/createAccount');
     }
     req.login(user, (error) => {
