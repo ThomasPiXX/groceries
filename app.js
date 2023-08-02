@@ -96,17 +96,17 @@ passport.use(new localStrategy((username, password, done) => {
       return done(error);
     }
     if(!rows){
-      return done(null, false, { template: 'createAccount'});
+      return done( null, false);
     }
     bcrypt.compare(password, rows.user_password, (error, isMatch) => {
       if (error) {
         return done(error);
       }
       if (!isMatch) {
-        return done(null, false, { template: 'createAccount' });
+        return done(null, null);
       }
       console.log(isMatch);
-      return done(null, rows ,{ template:'myPantry' });
+      return done(null, rows);
     });
   });
 }));
@@ -236,21 +236,26 @@ app.get('/loginPantry', (req, res) => {
 //path to loginPantry
 app.post("/login", (req, res, next) => {
   passport.authenticate('local', (error, user, info) =>{
-    if(error){
+    if (error) {
       return next(error);
     }
-    if(!user) {
-      req.flash('error', 'User dont exist please create one');
-      return res.redirect('/createAccount');
+    if (user === null) {
+      req.flash('error', 'No account with this username . Please create an account');
+      return res.redirect('/CreateAccount');
+    }
+    if(user === null){
+      req.flash('error', 'Wrong Password. Please try again');
+      return res.redirect('/loginPantry');      
     }
     req.login(user, (error) => {
-      if(error) {
+      if (error) {
         return next(error);
       }
       return res.redirect('/myPantry');
     });
   })(req, res, next);
 });
+
 
 //myPantry path 
 app.get('/myPantry', (req, res) => {

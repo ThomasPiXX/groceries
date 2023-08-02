@@ -5,51 +5,104 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Virtual Pantry</title>
-  <!-- Materialize CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-  <!-- Custom CSS -->
+  <!-- Material-UI CSS -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
   <style>
-    /* Add any custom styling here */
+    /* Add your custom CSS here */
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+    }
+
+    header {
+      background-color: #2196F3;
+      padding: 10px;
+      color: #ffffff;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    .btn-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn {
+      text-decoration: none;
+      display: inline-block;
+      padding: 12px 20px;
+      background-color: #2196F3;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #1976D2;
+    }
+
+    .btn-logout {
+      background-color: #FF5252;
+    }
+
+    .btn-logout:hover {
+      background-color: #E53935;
+    }
+    #name {
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+} 
   </style>
 </head>
 
 <body>
   <!-- Navbar -->
-  <nav>
-    <div class="nav-wrapper">
-      <a href="#" class="brand-logo center">Virtual Pantry</a>
-    </div>
-    <li>
-      <form action="/logout" method="post">
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <button type="submit" class="waves-effect waves-light btn">Logout</button>
-      </form>      
-    </li>
-  </nav>
+  <header>
+    <nav>
+      <div>
+        <h1>Virtual Pantry</h1>
+      </div>
+      <ul>
+        <li>
+          <form action="/logout" method="post">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button type="submit" class="btn btn-logout">Logout</button>
+          </form>
+        </li>
+      </ul>
+    </nav>
+  </header>
 
   <!-- Greeting -->
-  <div class="container">
+  <div class="container" id="name">
     <h3>Welcome, <%= user.name %>!</h3>
   </div>
 
   <!-- Buttons -->
-  <div class="container">
-    <div class="row">
-      <div class="col s12 m6">
-        <a href="#" class="waves-effect waves-light btn">What's in my Pantry</a>
-      </div>
-      <div class="col s12 m6">
-        <a href="#" class="waves-effect waves-light btn">Sort a New Recipe</a>
-      </div>
-    </div>
+  <div class="container btn-container">
+    <a href="#" class="btn">What's in my Pantry</a>
+    <a href="#" class="btn">Sort a New Recipe</a>
   </div>
 
-  <!-- Materialize JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <!-- Custom JS -->
-  <script>
-    // Add any custom JavaScript here
-  </script>
+  <!-- Material-UI JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.14.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.14.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/@material-ui/core/4.11.4/umd/material-ui.production.min.js"></script>
 </body>
 
 </html>

@@ -40,7 +40,10 @@
                     </div>
                     <div class="input-field">
                         <input type="password" id="password" name="password" required placeholder="Password">
-                    </div>  
+                    </div>
+                    <% if (typeof message !== 'undefined' && message !== null) { %>
+                        <p style="color: red;"><%= message %></p>
+                    <% } %>  
                     <button class="btn waves-effect waves-light" type="submit">Login</button>
                 </form>
                 <div class="pantry-button-container">
