@@ -91,25 +91,28 @@ passport.deserializeUser((username, done) =>{
 });
 //Passport strategy
 passport.use(new localStrategy((username, password, done) => {
-  db.get("SELECT * FROM users WHERE user_name = ?",[username], (error, rows) => {
-    if(error) {
+  db.get("SELECT * FROM users WHERE user_name = ?", [username], (error, rows) => {
+    if (error) {
       return done(error);
     }
-    if(!rows){
-      return done( null, false);
+    if (!rows) {
+      // User not found, provide the info.message value
+      return done(null, false, { message: 'No account with this username' });
     }
     bcrypt.compare(password, rows.user_password, (error, isMatch) => {
       if (error) {
         return done(error);
       }
       if (!isMatch) {
-        return done(null, null);
+        // Password is incorrect, provide the info.message value
+        return done(null, false, { message: 'Wrong Password' });
       }
       console.log(isMatch);
       return done(null, rows);
     });
   });
 }));
+
 //function for hashing password for DB
 function passwordHasher(password, done){
 
@@ -239,13 +242,15 @@ app.post("/login", (req, res, next) => {
     if (error) {
       return next(error);
     }
-    if (user === null) {
-      req.flash('error', 'No account with this username . Please create an account');
-      return res.redirect('/CreateAccount');
-    }
-    if(user === null){
-      req.flash('error', 'Wrong Password. Please try again');
-      return res.redirect('/loginPantry');      
+    if (!user) {
+      // If the user is not found or the password is incorrect, redirect accordingly
+      if (info.message === 'No account with this username') {
+        req.flash('error', 'No account with this username . Please create an account');
+        return res.redirect('/CreateAccount');
+      } else if (info.message === 'Wrong Password') {
+        req.flash('error', 'Wrong Password. Please try again');
+        return res.redirect('/loginPantry');
+      }
     }
     req.login(user, (error) => {
       if (error) {
@@ -277,7 +282,7 @@ app.post('/logout', (req, res) => {
     }
   });
   console.log(req.user);
-  res.render('loginPantry', { csrfToken });
+  res.render('list', { csrfToken });
 });
 
 
