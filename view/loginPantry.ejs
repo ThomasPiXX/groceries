@@ -45,22 +45,13 @@
                     <% } %>
                     <div class="pantry-button-container">
                         <button class="btn waves-effect waves-light my-pantry-button" type="submit">Login</button>
-                        <form id="new-user-form" action="/createAccount" method="get">
-                            <button class="btn waves-effect waves-light my-pantry-button" type="button" onclick="createAccount()">new user</button>
-                        </form>
-                        <form action="/" method="get">
-                            <button class="btn waves-effect waves-light my-pantry-button" type="submit">home</button>
-                        </form>
+                        <a class="btn waves-effect waves-light my-pantry-button" href="/createAccount">new user</a>
+                        <a class="btn waves-effect waves-light my-pantry-button" href="/">home</a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
     <script src="groceries/materialize.js"></script>
-    <script>
-        function createAccount() {
-            document.getElementById("new-user-form").submit();
-        }
-    </script>
 </body>
 </html>
