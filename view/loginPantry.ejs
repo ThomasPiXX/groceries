@@ -19,9 +19,8 @@
         }
         .pantry-button-container {
             display: flex;
-            justify-content: flex-start; /* Align buttons to the left */
+            justify-content: space-between; /* Align buttons with space between them */
             align-items: center; /* Center buttons vertically */
-            margin-top: 10px; /* Add margin to separate from the form */
         }
         .pantry-button-container form {
             margin: 0; /* Remove default form margins */
@@ -45,14 +44,23 @@
                         <p style="color: red;"><%= message %></p>
                     <% } %>
                     <div class="pantry-button-container">
-                        <button class="btn waves-effect waves-light my-pantry-button">Login</button>
-                        <button class="btn waves-effect waves-light my-pantry-button" formaction="/createAccount">new user</button>
-                        <button class="btn waves-effect waves-light my-pantry-button" formaction="/">home</button>
+                        <button class="btn waves-effect waves-light my-pantry-button" type="submit">Login</button>
+                        <form id="new-user-form" action="/createAccount" method="get">
+                            <button class="btn waves-effect waves-light my-pantry-button" type="button" onclick="createAccount()">new user</button>
+                        </form>
+                        <form action="/" method="get">
+                            <button class="btn waves-effect waves-light my-pantry-button" type="submit">home</button>
+                        </form>
                     </div>
                 </form>
             </div>
         </div>
     </div>
     <script src="groceries/materialize.js"></script>
+    <script>
+        function createAccount() {
+            document.getElementById("new-user-form").submit();
+        }
+    </script>
 </body>
 </html>
