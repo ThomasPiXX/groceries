@@ -1,17 +1,61 @@
 <!DOCTYPE html>
-
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Session Inventory</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
-
-        
-        <script src="" async defer></script>
-    </body>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Session Inventory</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Add Material-UI CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@material-ui/core@4.11.4/dist/umd/material-ui.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8PA9O1f/CpWV1Qv1y8HGA6pjKwgt6QvzUf0HeWJT1VVAzN" crossorigin="anonymous">
+    <!-- Your custom style -->
+    <style>
+        /* Add custom colors */
+        :root {
+            --primary-color: #2196F3; /* Blue */
+            --secondary-color: #FF5722; /* Orange */
+        }
+        body {
+            background-color: #f0f0f0; /* Light gray */
+        }
+        .container {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #fff; /* White */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .center-align {
+            text-align: center;
+        }
+        .collection-item {
+            border-bottom: 1px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <h1 class="center-align" style="color: var(--primary-color);">Pantry Inventory</h1>
+        <div class="center-align">
+            <% if (pantryData.length === 0) { %>
+                <p>Your pantry is empty.</p>
+            <% } else { %>
+                <ul class="collection">
+                    <% for (const item of pantryData) { %>
+                        <li class="collection-item"><%= item %></li>
+                    <% } %>
+                </ul>
+            <% } %>
+        </div>
+        <div class="center-align">
+            <a href="/myPantry" class="btn" style="background-color: var(--secondary-color); color: white;">Go Back to Pantry</a>
+        </div>
+    </div>
+    <script src="" async defer></script>
+</body>
 </html>
+1

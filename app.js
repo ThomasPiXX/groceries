@@ -285,6 +285,26 @@ app.post('/logout', (req, res) => {
   res.render('list', { csrfToken });
 });
 
+// Route to serve the pantryInventory.ejs file and display the pantry inventory for the logged-in user
+app.get('/pantryInventory', (req, res) => {
+  const username = req.user.name;
+  const csrfToken = req.csrfToken();
+  db.get('SELECT user_id, pantry_inventory FROM users WHERE user_name = ?', [username], (error, row) => {
+    if (error) {
+      console.error('Error fetching user pantry inventory:', error);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (!row) {
+        res.status(404).send('User not found');
+      } else {
+        const user_id = row.user_id;
+        const pantryData = row.pantry_inventory ? row.pantry_inventory.split(',') : []; 
+        res.render('pantryInventory', { pantryData, csrfToken });
+      }
+    }
+  });
+});
+
 
 
 

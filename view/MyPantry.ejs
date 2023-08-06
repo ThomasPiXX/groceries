@@ -87,16 +87,16 @@
       </ul>
     </nav>
   </header>
-
-  <!-- Greeting -->
   <div class="container" id="name">
     <h3>Welcome, <%= user.name %>!</h3>
   </div>
-
-  <!-- Buttons -->
   <div class="container btn-container">
-    <a href="#" class="btn">What's in my Pantry</a>
-    <a href="#" class="btn">Sort a New Recipe</a>
+    <form action="/pantryInventory" method="get">
+      <button type="submit" class="btn">What's in my Pantry</button>
+    </form>
+    <form action="/sortRecipe" method="get">
+      <button type="submit" class="btn">Sort a New Recipe</button>
+    </form>
   </div>
 
   <!-- Material-UI JavaScript -->
