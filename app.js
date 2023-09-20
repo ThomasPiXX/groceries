@@ -145,13 +145,17 @@ app.get("/List", (req, res) => {
 });
 
 ////////////////////////////////////////////////////
+
 // Open AI solution 
+
+
+/*
 app.post("/test", async (req, res, next) => {
     const { recipe } = req.body;
   
     try {
       const response = await openai.Completion.create({
-        engine: '', /*'text-embedding-ada-002'*/ // Specify the engine
+        engine: '', //'text-embedding-ada-002'  Specify the engine
         prompt: "Please sort the ingredients into the appropriate grocery sections:\n\n" + recipe,// Pass the recipe as the prompt for the model
         max_tokens: 100, // Specify the desired response length
       });
@@ -162,9 +166,10 @@ app.post("/test", async (req, res, next) => {
     } catch (error) {
       next(error);
     }
-  });
+  }); 
+*/
   
-/////////////////////////////////////////////////
+////////
 //LlaMa solution 
 
 app.post('/tester', (req, res) => {
